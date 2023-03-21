@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     "drf_spectacular",
     "djoser",
     "users",
+    "vacancies",
 ]
 
 MIDDLEWARE = [
@@ -85,7 +86,7 @@ DATABASES = {
         'USER': 'postgres',
         'PASSWORD': 'postgres',
         'HOST': '127.0.0.1',
-        'PORT': '5432',
+        'PORT': '5439',
     }
 }
 
@@ -107,8 +108,8 @@ DJOSER = {
 }
 
 SPECTACULAR_SETTINGS = {
-    'TITLE': 'Skymarket API',
-    'DESCRIPTION': 'Skymarket project',
+    'TITLE': 'CanDoIt API',
+    'DESCRIPTION': 'CanDoIt project',
     'VERSION': '1.0.0',
 }
 
