@@ -18,6 +18,9 @@ class VacancyViewSet(viewsets.ModelViewSet):
     pagination_class = VacancyPagination
     serializer_class = VacancySerializer
 
+    # def update(self, request, *args, **kwargs):
+    #     pass
+
     def perform_create(self, serializer):
         user_pk = self.request.user.pk
         if user_pk is None:
