@@ -16,6 +16,7 @@ class Vacancy(models.Model):
     is_archived = models.BooleanField(default=False)
     skills = models.ManyToManyField(Skill, blank=True)
     min_experience = models.IntegerField(null=True, blank=True)
+    price = models.PositiveBigIntegerField(default=0, null=True, blank=True)
 
     @property
     def username(self):

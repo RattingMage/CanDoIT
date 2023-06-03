@@ -21,12 +21,12 @@ class UserRoles(models.TextChoices):
 
 
 class UserManager(BaseUserManager):
-    def create_user(self, email, first_name, last_name, role, password=None):
+    def create_user(self, email, first_name, last_name, role, phone, company, experience, password=None):
         if not email:
             raise ValueError('Users must have an email address')
 
         email = self.normalize_email(email)
-        user = self.model(email=email, first_name=first_name, last_name=last_name, role=role)
+        user = self.model(email=email, first_name=first_name, last_name=last_name, role=role, phone=phone, company=company, experience=experience)
 
         user.set_password(password)
         user.save()
@@ -61,7 +61,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     objects = UserManager()
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['first_name', 'last_name', 'role']
+    REQUIRED_FIELDS = ['first_name', 'last_name', 'role', 'phone', 'company', 'experience']
 
     class Meta:
         verbose_name = "Пользователь"

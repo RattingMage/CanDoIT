@@ -18,16 +18,12 @@ class VacancyViewSet(viewsets.ModelViewSet):
     pagination_class = VacancyPagination
     serializer_class = VacancySerializer
 
-    # def update(self, request, *args, **kwargs):
-    #     pass
-
     def perform_create(self, serializer):
-        user_pk = self.request.user.pk
-        if user_pk is None:
+        if self.request.user.pk is None:
             return Response("Unauthorized", status=401)
-        serializer.save(employer=self.request.user)
+        serializer.save(employer_id=self.request.user.pk)
 
-    @action(detail=True, methods=["get"], permission_classes=[IsAuthenticated])
+    @action(detail=True, methods=["get"])
     def list_executors(self, request, pk=None):
         vacancy = Vacancy.objects.get(pk=pk)
         executors = vacancy.executors.all()
@@ -47,10 +43,10 @@ class VacancyViewSet(viewsets.ModelViewSet):
 
         return Response(response)
 
-    @action(detail=True, methods=["post"], permission_classes=[IsAuthenticated])
+    @action(detail=True, methods=["post"])
     def add_executor_to_list(self, request, pk=None):
         vacancy = Vacancy.objects.get(pk=pk)
-        vacancy.executors.add(self.request.user)
+        vacancy.executors.add(User.objects.get(pk=self.request.data["user_pk"]))
         executors = vacancy.executors.all()
         response = []
         for executor in executors:
