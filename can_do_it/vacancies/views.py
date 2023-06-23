@@ -68,8 +68,8 @@ class VacancyViewSet(viewsets.ModelViewSet):
     def add_executor(self, request, pk=None):
         try:
             vacancy = Vacancy.objects.get(pk=pk)
-            vacancy.executor = User.objects.get(pk=self.request.data.get("exec_pk"))
+            vacancy.executor.add(User.objects.get(pk=self.request.data.get("exec_pk")))
             vacancy.save()
             return Response("No content", 204)
-        except:
+        except Exception as ex:
             return Response("Error", 503)

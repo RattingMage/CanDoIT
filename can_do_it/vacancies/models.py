@@ -7,7 +7,7 @@ class Vacancy(models.Model):
     STATUS = [("draft", "Черновик"), ("open", "Открыта"), ("closed", "Закрыта")]
 
     employer = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
-    executor = models.OneToOneField(User, related_name="final_executor", on_delete=models.SET_NULL, null=True, blank=True)
+    executor = models.ManyToManyField(User, related_name="final_executor", blank=True)
     executors = models.ManyToManyField(User, related_name="list_executors", blank=True)
     name = models.CharField(max_length=50)
     text = models.CharField(max_length=1000)

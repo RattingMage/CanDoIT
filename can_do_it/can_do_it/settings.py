@@ -88,8 +88,8 @@ DATABASES = {
         'NAME': 'postgres',
         'USER': 'postgres',
         'PASSWORD': 'postgres',
-        'HOST': '127.0.0.1',
-        'PORT': '5439',
+        'HOST': '0.0.0.0',
+        'PORT': '5432',
     }
 }
 
@@ -110,6 +110,9 @@ DJOSER = {
     'ACTIVATION_URL': 'activate/{uid}/{token}',
     'SEND_ACTIVATION_EMAIL': True,
     'SERIALIZERS': {},
+    'PERMISSIONS': {
+        'user': ['rest_framework.permissions.AllowAny']
+    }
 }
 
 SIMPLE_JWT = {

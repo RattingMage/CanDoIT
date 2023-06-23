@@ -2,6 +2,8 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, Permis
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
+from can_do_it.settings import AUTH_USER_MODEL
+
 
 class Skill(models.Model):
     name = models.CharField(max_length=20)
@@ -21,12 +23,13 @@ class UserRoles(models.TextChoices):
 
 
 class UserManager(BaseUserManager):
-    def create_user(self, email, first_name, last_name, role, phone, company, experience, password=None):
+    def create_user(self, email, first_name, last_name, role, phone, company="", experience=0, password=None):
         if not email:
             raise ValueError('Users must have an email address')
 
         email = self.normalize_email(email)
-        user = self.model(email=email, first_name=first_name, last_name=last_name, role=role, phone=phone, company=company, experience=experience)
+        user = self.model(email=email, first_name=first_name, last_name=last_name, role=role, phone=phone,
+                          company=company, experience=experience)
 
         user.set_password(password)
         user.save()
@@ -54,8 +57,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     avatar = models.ImageField(upload_to="avatars", null=True, blank=True)
     role = models.CharField(max_length=8, choices=UserRoles.choices)
     skills = models.ManyToManyField(Skill, blank=True)
-    experience = models.IntegerField(default=0, blank=True)
-    company = models.CharField(max_length=255, blank=True)
+    experience = models.IntegerField(default=0, null=True, blank=True)
+    company = models.CharField(max_length=255, null=True, blank=True)
     is_active = models.BooleanField(default=True)
 
     objects = UserManager()
